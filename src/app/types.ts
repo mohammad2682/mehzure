@@ -4,3 +4,7 @@ export interface WorkItem {
   from: string;
   value: string;
 }
+export interface Ticket {
+  workItems: WorkItem[];
+  workItemType: string;
+}
