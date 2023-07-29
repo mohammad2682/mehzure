@@ -24,4 +24,10 @@ export class WorkItemService {
       { headers: this.headers }
     );
   }
+
+  getWorkItems(): Observable<any> {
+    return this._http.get(
+      'http://192.168.100.25:45455/api/workitem/workitems/all'
+    );
+  }
 }

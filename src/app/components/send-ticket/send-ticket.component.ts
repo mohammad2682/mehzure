@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { CoreService } from 'src/app/core/core.service';
 import { WorkItemService } from 'src/app/services/work-item.service';
 import { Ticket } from 'src/app/types';
+import { WorkItemDialogService } from 'src/app/services/work-item-dialog.service';
 
 @Component({
   selector: 'app-send-ticket',
@@ -28,7 +29,8 @@ export class SendTicketComponent {
     private _workService: WorkItemService,
     private _dialogRef: MatDialogRef<SendTicketComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _coreService: CoreService // private _workService: WorkItemService
+    private _coreService: CoreService, // private _workService: WorkItemService
+    private _workItemDialogService: WorkItemDialogService
   ) {
     this.workItemForm = this._fb.group({
       workTitle: '',
@@ -74,10 +76,12 @@ export class SendTicketComponent {
           this._coreService.openSnackBar('work item added successfully', 'Yay');
           this.loading = false;
           this._dialogRef.close(true);
+          this._workItemDialogService.setFormSubmitted(true);
         },
         error: (err: any) => {
           console.error(err);
           this._coreService.openSnackBar(err.statusText, 'Try again');
+          this._workItemDialogService.setFormSubmitted(false);
           this.loading = false;
         },
       });

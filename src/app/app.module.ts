@@ -19,6 +19,11 @@ import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { LoadingComponent } from './components/loading/loading.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -27,6 +32,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     SidebarComponent,
     BacklogComponent,
     HomeComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +48,10 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     HttpClientModule,
     MatSelectModule,
     EditorModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
