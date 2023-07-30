@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CoreService } from 'src/app/core/core.service';
 import { WorkItemService } from 'src/app/services/work-item.service';
-import { Ticket } from 'src/app/types';
+import { Ticket, updateTicket } from 'src/app/types';
 import { WorkItemDialogService } from 'src/app/services/work-item-dialog.service';
 
 @Component({
@@ -33,9 +33,9 @@ export class SendTicketComponent {
     private _workItemDialogService: WorkItemDialogService
   ) {
     this.workItemForm = this._fb.group({
-      workTitle: '',
+      title: '',
       description: '',
-      assignWorkItem: '',
+      assignedTo: '',
       workItemType: '',
     });
   }
@@ -46,45 +46,97 @@ export class SendTicketComponent {
 
   onFormSubmit() {
     if (this.workItemForm.valid) {
-      this.loading = true;
-      const newTicket: Ticket = {
-        workItems: [
-          {
-            op: 'add',
-            path: '/fields/System.Title',
-            from: null,
-            value: this.workItemForm.value.workTitle,
+      if (this.data) {
+        const newTicket: updateTicket = {
+          id: this.data.id,
+          workItems: [
+            {
+              op: 'add',
+              path: '/fields/System.Title',
+              from: null,
+              value: this.workItemForm.value.title,
+            },
+            {
+              op: 'add',
+              path: '/fields/System.Description',
+              from: null,
+              value: this.workItemForm.value.description,
+            },
+            {
+              op: 'add',
+              path: '/fields/System.AssignedTo',
+              from: null,
+              value: this.workItemForm.value.assignedTo,
+            },
+            {
+              op: 'add',
+              path: '/fields/System.WorkItemType',
+              from: null,
+              value: this.workItemForm.value.workItemType,
+            },
+          ],
+        };
+        this._workService.updateWorkItem(JSON.stringify(newTicket)).subscribe({
+          next: (val: any) => {
+            this._coreService.openSnackBar(
+              'work item updated successfully',
+              'Yay'
+            );
+            this.loading = false;
+            this._dialogRef.close(true);
+            this._workItemDialogService.setFormSubmitted(true);
           },
-          {
-            op: 'add',
-            path: '/fields/System.Description',
-            from: null,
-            value: this.workItemForm.value.description,
+          error: (err: any) => {
+            console.error(err);
+            this._coreService.openSnackBar(err.statusText, 'Try again');
+            this._workItemDialogService.setFormSubmitted(false);
+            this.loading = false;
           },
-          {
-            op: 'add',
-            path: '/fields/System.AssignedTo',
-            from: null,
-            value: this.workItemForm.value.assignWorkItem,
+        });
+      } else {
+        this.loading = true;
+        const newTicket: Ticket = {
+          workItems: [
+            {
+              op: 'add',
+              path: '/fields/System.Title',
+              from: null,
+              value: this.workItemForm.value.title,
+            },
+            {
+              op: 'add',
+              path: '/fields/System.Description',
+              from: null,
+              value: this.workItemForm.value.description,
+            },
+            {
+              op: 'add',
+              path: '/fields/System.AssignedTo',
+              from: null,
+              value: this.workItemForm.value.assignedTo,
+            },
+          ],
+          workItemType: this.workItemForm.value.workItemType,
+        };
+        console.log(newTicket);
+        this._workService.addWorkItem(JSON.stringify(newTicket)).subscribe({
+          next: (val: any) => {
+            this._coreService.openSnackBar(
+              'work item added successfully',
+              'Yay'
+            );
+            this.loading = false;
+            this._dialogRef.close(true);
+            this._workItemDialogService.setFormSubmitted(true);
           },
-        ],
-        workItemType: this.workItemForm.value.workItemType,
-      };
-      console.log(newTicket);
-      this._workService.addWorkItem(JSON.stringify(newTicket)).subscribe({
-        next: (val: any) => {
-          this._coreService.openSnackBar('work item added successfully', 'Yay');
-          this.loading = false;
-          this._dialogRef.close(true);
-          this._workItemDialogService.setFormSubmitted(true);
-        },
-        error: (err: any) => {
-          console.error(err);
-          this._coreService.openSnackBar(err.statusText, 'Try again');
-          this._workItemDialogService.setFormSubmitted(false);
-          this.loading = false;
-        },
-      });
+          error: (err: any) => {
+            console.error(err);
+            this._coreService.openSnackBar(err.statusText, 'Try again');
+            this._workItemDialogService.setFormSubmitted(false);
+            this.loading = false;
+          },
+        });
+      }
     }
   }
 }

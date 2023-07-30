@@ -8,3 +8,7 @@ export interface Ticket {
   workItems: WorkItem[];
   workItemType: string;
 }
+export interface updateTicket {
+  id: number;
+  workItems: WorkItem[];
+}

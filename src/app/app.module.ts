@@ -24,6 +24,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { LoadingComponent } from './components/loading/loading.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ConfirmationComponent } from './components/confirmation/confirmation.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { KanbanComponent } from './components/kanban/kanban.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,8 @@ import { MatIconModule } from '@angular/material/icon';
     BacklogComponent,
     HomeComponent,
     LoadingComponent,
+    ConfirmationComponent,
+    KanbanComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +57,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     MatSortModule,
     MatIconModule,
+    DragDropModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

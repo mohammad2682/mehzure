@@ -25,6 +25,21 @@ export class WorkItemService {
     );
   }
 
+  updateWorkItem(newData: string): Observable<any> {
+    return this._http.put(
+      `http://192.168.100.25:45455/api/workitem/workitems`,
+      newData,
+      { headers: this.headers }
+    );
+  }
+
+  deleteWorkItem(id: number): Observable<any> {
+    return this._http.delete(
+      `http://192.168.100.25:45455/api/workitem/workitems/${id}`,
+      { headers: this.headers }
+    );
+  }
+
   getWorkItems(): Observable<any> {
     return this._http.get(
       'http://192.168.100.25:45455/api/workitem/workitems/all'

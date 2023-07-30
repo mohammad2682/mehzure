@@ -5,8 +5,11 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDialog } from '@angular/material/dialog';
 import { WorkItemDialogService } from 'src/app/services/work-item-dialog.service';
+import { CoreService } from 'src/app/core/core.service';
+import { SendTicketComponent } from '../send-ticket/send-ticket.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationComponent } from '../confirmation/confirmation.component';
 
 @Component({
   selector: 'app-backlog',
@@ -24,6 +27,7 @@ export class BacklogComponent {
 
   constructor(
     private _workItemList: WorkItemService,
+    private _coreService: CoreService,
     private _dialog: MatDialog,
     private _workItemDialogService: WorkItemDialogService
   ) {}
@@ -42,12 +46,18 @@ export class BacklogComponent {
     this.loading = true;
     this._workItemList.getWorkItems().subscribe({
       next: (res) => {
-        this.dataSource = new MatTableDataSource(res);
+        console.log(res.workItems);
+        this.dataSource = new MatTableDataSource(res.workItems);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.loading = false;
       },
-      error: console.error,
+      error: (err: any) => {
+        console.error(err);
+        this._coreService.openSnackBar(err.statusText, 'Try again');
+        this._workItemDialogService.setFormSubmitted(false);
+        this.loading = false;
+      },
     });
   }
 
@@ -58,12 +68,49 @@ export class BacklogComponent {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
 
-  openEditForm(data: any) {}
-  deleteEmployee(data: any) {}
+  getRecord(data: any) {
+    this.openEditForm(data);
+  }
+
+  openEditForm(data: any) {
+    const dialogRef = this._dialog.open(SendTicketComponent, {
+      data: data,
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val === true) {
+          this.getWorkItemList();
+        }
+      },
+    });
+  }
+  deleteWorkItem(data: any) {
+    const dialogRef = this._dialog.open(ConfirmationComponent, {
+      width: '250px',
+      data: {
+        title: 'Confirm Deletion',
+        message: `Are you sure you want to delete "${data.title}" work item?`,
+      },
+      enterAnimationDuration: '0ms',
+      exitAnimationDuration: '0ms',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // result will be true if the user clicked on "Confirm" in the dialog
+      if (result) {
+        this._workItemList.deleteWorkItem(data.id).subscribe({
+          next: (res) => {
+            this._coreService.openSnackBar('Work item deleted!', 'Ok');
+            this.getWorkItemList();
+          },
+          error: console.log,
+        });
+      }
+    });
+  }
 }

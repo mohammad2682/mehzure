@@ -6,7 +6,7 @@
         <div class="flex">
             <mat-form-field class="flex-auto">
                 <mat-label>Title</mat-label>
-                <input matInput type="text" placeholder="Ex. ERP bug 32" formControlName="workTitle">
+                <input matInput type="text" placeholder="Ex. ERP bug 32" formControlName="title">
             </mat-form-field>
 
             <mat-form-field class="flex-1 ms-3">
@@ -20,7 +20,7 @@
 
             <mat-form-field class="flex-1  ms-3">
                 <mat-label>Assign To</mat-label>
-                <mat-select formControlName="assignWorkItem">
+                <mat-select formControlName="assignedTo">
                     <mat-option *ngFor="let user of users" [value]="user">
                         <p class="text-xs">{{user}}</p>
                     </mat-option>
@@ -39,7 +39,7 @@
         </div>
     </div>
     <div mat-dialog-actions class="action flex">
-        <button mat-raised-button class="p-3 flex-1 mx-4 bg-indigo-300 rounded-md" type="button" mat-dialog-close="false">Cancel</button>
+        <button mat-raised-button class="p-3 flex-1 mx-4 bg-indigo-200 rounded-md" type="button" mat-dialog-close="false">Cancel</button>
         <button mat-raised-button class="p-3 flex-1 me-4 bg-indigo-900 text-white rounded-md"  color="primary" type="submit">{{data ? 'Update' : 'Save'}}</button>
     </div>
     <app-loading *ngIf="loading"></app-loading>
