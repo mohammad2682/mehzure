@@ -55,6 +55,9 @@ export class BacklogComponent {
       error: (err: any) => {
         console.error(err);
         this._coreService.openSnackBar(err.statusText, 'Try again');
+        if (err.status === 401) {
+          this._coreService.openSnackBar('You should sign in first', 'Ok');
+        }
         this._workItemDialogService.setFormSubmitted(false);
         this.loading = false;
       },
@@ -108,7 +111,14 @@ export class BacklogComponent {
             this._coreService.openSnackBar('Work item deleted!', 'Ok');
             this.getWorkItemList();
           },
-          error: console.log,
+          error: (err: any) => {
+            console.error(err);
+            this._coreService.openSnackBar(err.statusText, 'Try again');
+            if (err.statusText === 'Unauthorized') {
+              this._coreService.openSnackBar('You should sign in first', 'Ok');
+            }
+            this.loading = false;
+          },
         });
       }
     });

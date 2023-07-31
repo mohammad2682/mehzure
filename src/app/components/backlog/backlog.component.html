@@ -30,13 +30,6 @@
                 <button mat-icon-button class="cursor-default items-center">
                     {{row.assignedTo}}
                 </button>
-
-                <!-- <div class="w-10 me-2 p-0">
-                    <img src={{row.imageUrl}}>
-                </div>
-                <div>
-                    {{row.assignedTo}} 
-                </div> -->
             </td>
         </ng-container>
 
@@ -46,6 +39,7 @@
             <td mat-cell *matCellDef="let row"> {{row.state}} </td>
         </ng-container>
 
+        <!-- Action Column -->
         <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
             <td mat-cell *matCellDef="let row">

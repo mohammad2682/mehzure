@@ -1,0 +1,26 @@
+<div mat-dialog-title class="bg-indigo-100">
+    <h2>Sign In Form</h2>
+</div>
+<form [formGroup]="signInForm" (ngSubmit)="onFormSubmit()">
+    <div mat-dialog-content>
+        <div class="flex">
+            <mat-form-field class="flex-auto">
+                <mat-label>Username</mat-label>
+                <input matInput type="text" placeholder="Ex. Mohammad" formControlName="username" required>
+            </mat-form-field>
+        </div>
+        <div class="flex">
+            <mat-form-field class="flex-auto">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" placeholder="enter your password" formControlName="password" required>
+            </mat-form-field>
+        </div>
+    </div>
+    <div mat-dialog-actions class="action flex">
+        <button mat-raised-button class="p-3 flex-1 mx-4 bg-indigo-200 rounded-md" type="button"
+            mat-dialog-close="false">Cancel</button>
+        <button mat-raised-button class="p-3 flex-1 me-4 bg-indigo-900 text-white rounded-md" color="primary"
+            type="submit">Sign In</button>
+    </div>
+    <app-loading *ngIf=""></app-loading>
+</form>

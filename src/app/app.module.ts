@@ -16,7 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { MatTableModule } from '@angular/material/table';
@@ -27,6 +27,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { KanbanComponent } from './components/kanban/kanban.component';
+import { SigninComponent } from './components/signin/signin.component';
+import { TokenInterceptor } from './services/token-interceptor';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { KanbanComponent } from './components/kanban/kanban.component';
     LoadingComponent,
     ConfirmationComponent,
     KanbanComponent,
+    SigninComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,9 @@ import { KanbanComponent } from './components/kanban/kanban.component';
     MatIconModule,
     DragDropModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

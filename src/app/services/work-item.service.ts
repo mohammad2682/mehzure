@@ -9,6 +9,8 @@ import { WorkItem } from '../types';
 export class WorkItemService {
   constructor(private _http: HttpClient) {}
 
+  token = localStorage.getItem('token');
+
   headers = new HttpHeaders({
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'true',
