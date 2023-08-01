@@ -14,4 +14,11 @@ export class SigninService {
       signinData
     );
   }
+
+  signUp(signupData: any): Observable<any> {
+    return this._http.post(
+      'http://192.168.100.25:45455/api/authentication/signup/',
+      signupData
+    );
+  }
 }

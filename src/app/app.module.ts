@@ -29,6 +29,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { KanbanComponent } from './components/kanban/kanban.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { TokenInterceptor } from './services/token-interceptor';
+import { SignupComponent } from './components/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { TokenInterceptor } from './services/token-interceptor';
     ConfirmationComponent,
     KanbanComponent,
     SigninComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,

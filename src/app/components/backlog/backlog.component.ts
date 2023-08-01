@@ -10,6 +10,7 @@ import { CoreService } from 'src/app/core/core.service';
 import { SendTicketComponent } from '../send-ticket/send-ticket.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
+import { SigninComponent } from '../signin/signin.component';
 
 @Component({
   selector: 'app-backlog',
@@ -92,6 +93,7 @@ export class BacklogComponent {
       },
     });
   }
+
   deleteWorkItem(data: any) {
     const dialogRef = this._dialog.open(ConfirmationComponent, {
       width: '250px',

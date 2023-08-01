@@ -1,0 +1,11 @@
+.disabled{
+    color: #d4d4d8 !important;
+    opacity: 0.5 !important;
+    cursor: default !important;
+}
+
+.disabled:hover{
+    color: #d4d4d8 !important;
+    opacity: 0.5 !important;
+    background-color: #312e81 !important;
+}

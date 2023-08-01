@@ -3,6 +3,7 @@ import { SendTicketComponent } from '../send-ticket/send-ticket.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CoreService } from 'src/app/core/core.service';
 import { SigninComponent } from '../signin/signin.component';
+import { SignupComponent } from '../signup/signup.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -29,6 +30,17 @@ export class SidebarComponent {
 
   openSignInForm() {
     const dialogRef = this._dialog.open(SigninComponent);
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          // this.getWorkItems();
+        }
+      },
+    });
+  }
+
+  openSignupForm() {
+    const dialogRef = this._dialog.open(SignupComponent);
     dialogRef.afterClosed().subscribe({
       next: (val) => {
         if (val) {
